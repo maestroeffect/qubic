@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import trendbig1 from "../../assets/img/trending-news-1.jpg";
 import trendbig2 from "../../assets/img/trending-news-2.jpg";
 import Slider from "../Slider";
+import QubicwebFeed from "../RssParser"; // Import your QubicwebFeed component
 
 const trendingNews = [
   {
@@ -30,6 +31,7 @@ const trendingNews = [
   },
 ];
 const TrendingNewsSlider = () => {
+  const { articles, error } = QubicwebFeed();
   return (
     <div className="carousel_post2_type3 nav_style1">
       <Slider
@@ -56,11 +58,11 @@ const TrendingNewsSlider = () => {
           },
         }}
       >
-        {trendingNews.map((item, i) => (
+        {articles.map((item, i) => (
           <div key={i} className="single_post post_type3">
             <div className="post_img">
               <div className="img_wrap">
-                <img src={item.image} alt="thumb" />
+                <img src={item.image || trendingNews.image} alt="thumb" />
               </div>
               <span className="tranding">
                 <FontAwesome name="fa-bolt" />
@@ -75,7 +77,7 @@ const TrendingNewsSlider = () => {
                 <Link to="/post1">{item.title}</Link>
               </h4>
               <div className="space-10" />
-              <p className="post-p">{item.body}</p>
+              <p className="post-p">{item.body || "Lorem ipsum jwefwjkfwefnwekjfnejkfnwejkfnkj"}</p>
             </div>
           </div>
         ))}

@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import ProtoTypes from "prop-types";
 import Heading from "../uiStyle/Heading";
 import TrendingNewsSlider from "../TrendingNewsSlider";
 import { Link } from "react-router-dom";
 import FontAwesome from "../uiStyle/FontAwesome";
-import useNews from "../RapidApi";
+import QubicwebFeed from "../RssParser"; // Import your QubicwebFeed component
 
 import transm1 from "../../assets/img/gallery-1.jpg";
 import transm2 from "../../assets/img/gallery-2.jpg";
@@ -12,54 +12,8 @@ import transm4 from "../../assets/img/gallery-3.jpg";
 import transm5 from "../../assets/img/gallery-4.jpg";
 import transm6 from "../../assets/img/gallery-5.jpg";
 
-const trendingNews = [
-  {
-    image: transm1,
-    category: "TECHNOLOGY",
-    date: "March 26, 2020",
-    title: "Nancy Zhang a Chinese busy woman and Dhaka",
-  },
-  {
-    image: transm2,
-    category: "TECHNOLOGY",
-    date: "March 26, 2020",
-    title: "U.S. Response subash says he will label regions by risk of…",
-  },
-  {
-    image: transm4,
-    category: "TECHNOLOGY",
-    date: "March 26, 2020",
-    title: "Venezuela elan govt and opposit the property collect",
-  },
-  {
-    image: transm5,
-    category: "TECHNOLOGY",
-    date: "March 26, 2020",
-    title: "Nancy Zhang a Chinese busy woman and Dhaka",
-  },
-  {
-    image: transm6,
-    category: "TECHNOLOGY",
-    date: "March 26, 2020",
-    title: "U.S. Response subash says he will label regions by risk of…",
-  },
-  {
-    image: transm4,
-    category: "TECHNOLOGY",
-    date: "March 26, 2020",
-    title: "Venezuela elan govt and opposit the property collect",
-  },
-];
-
 const TrendingNews = ({ dark }) => {
-  // const { news, loading, error } = useNews();
-  // if (loading) {
-  //   return <div>...</div>; // Show a loading state while data is being fetched
-  // }
-
-  // if (error) {
-  //   return <div>Error: {error}</div>; // Show an error message if fetching fails
-  // }
+  const { articles, error } = QubicwebFeed();
 
   return (
     <>
@@ -73,13 +27,13 @@ const TrendingNews = ({ dark }) => {
       <div className="space-30" />
       <div className="row">
         <div className="col-lg-6">
-          {trendingNews.slice(0, 3).map((item, i) => (
+          {articles.slice(0, 3).map((item, i) => (
             <div key={i + "key"}>
               <div key={i} className="single_post widgets_small">
                 <div className="post_img">
                   <div className="img_wrap">
                     <img
-                      src={item.image || "default-image-url.jpg"} // Fallback image URL if photo_url is not present
+                      src={item.image || transm1} // Fallback image URL if photo_url is not present
                       alt="thumb"
                     />
                   </div>
@@ -89,11 +43,11 @@ const TrendingNews = ({ dark }) => {
                 </div>
                 <div className="single_post_text">
                   <div className="meta2">
-                    <Link to="/">{item.category}</Link>
-                    <Link to="/">"{item.date}"</Link>
+                    <Link to="/">{item.category || "UNKNOWN"}</Link>
+                    <Link to="/">{item.date || "KAI"}</Link>
                   </div>
-                  <h4>
-                    <Link to="/post1">{item.title}</Link>
+                  <h4 title={item.title} className="title-truncate">
+                    <Link to={`/post/${item.id}`}>{item.title.length > 50 ? `${item.title.substring(0, 50)}...` : item.title}</Link>
                   </h4>
                 </div>
               </div>
@@ -108,12 +62,15 @@ const TrendingNews = ({ dark }) => {
           ))}
         </div>
         <div className="col-lg-6">
-          {trendingNews.slice(3, 6).map((item, i) => (
+          {articles.slice(3, 6).map((item, i) => (
             <div key={i + "key"}>
               <div key={i} className="single_post widgets_small">
                 <div className="post_img">
                   <div className="img_wrap">
-                    <img src={item.thumbnail_url} alt="thumb" />
+                    <img
+                      src={item.thumbnail_url || transm2} // Fallback image URL if photo_url is not present
+                      alt="thumb"
+                    />
                   </div>
                   <span className="tranding">
                     <FontAwesome name="bolt" />
@@ -121,11 +78,11 @@ const TrendingNews = ({ dark }) => {
                 </div>
                 <div className="single_post_text">
                   <div className="meta2">
-                    <Link to="/">{item.category}</Link>
-                    <Link to="/">{item.date}</Link>
+                    <Link to="/">{item.category || "UNKNOWN"}</Link>
+                    <Link to="/">{item.date || "kAI"}</Link>
                   </div>
-                  <h4>
-                    <Link to="/post1">{item.title}</Link>
+                  <h4 title={item.title} className="title-truncate">
+                    <Link to={`/post/${item.id}`}>{item.title.length > 50 ? `${item.title.substring(0, 50)}...` : item.title}</Link>
                   </h4>
                 </div>
               </div>

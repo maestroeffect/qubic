@@ -1,45 +1,41 @@
 import { useEffect, useState } from "react";
-import Parser from "rss-parser";
 
 const QubicwebFeed = () => {
   const [articles, setArticles] = useState([]);
-  const parser = new Parser();
+  const [error, setError] = useState(null);
+
   useEffect(() => {
     const fetchFeed = async () => {
       try {
-        // Replace with your Qubicbox RSS feed URL
-        const proxyUrl = "https://api.allorigins.win/get?url=";
-        const feedUrl = "https://yourqubicboxdomain.com/feed/rss";
-        const response = await fetch(
-          `${proxyUrl}${encodeURIComponent(feedUrl)}`
-        );
-        const { contents } = await response.json();
+        const response = await fetch("http://localhost:5000/rss-feed");
 
-        const feed = await parser.parseString(contents);
-        setArticles(feed.items);
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const feedData = await response.json();
+
+        if (feedData.items && Array.isArray(feedData.items)) {
+          const parsedArticles = feedData.items.map((item) => ({
+            title: item.title && typeof item.title === "object" ? item.title._ : item.title,
+            link: item.link || "#",
+            contentSnippet: item.contentSnippet || "No summary available.",
+          }));
+
+          setArticles(parsedArticles);
+        } else {
+          throw new Error("Unexpected feed structure: items not found or not an array.");
+        }
       } catch (error) {
         console.error("Error fetching RSS feed:", error);
+        setError(error.message);
       }
     };
 
     fetchFeed();
   }, []);
 
-  return (
-    <div>
-      <h1>Qubicbox Articles</h1>
-      <ul>
-        {articles.map((article, index) => (
-          <li key={index}>
-            <a href={article.link} target="_blank" rel="noopener noreferrer">
-              {article.title}
-            </a>
-            <p>{article.contentSnippet}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  return { articles, error };
 };
 
 export default QubicwebFeed;

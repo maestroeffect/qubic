@@ -3,12 +3,24 @@ import ProtoTypes from "prop-types";
 import { Link } from "react-router-dom";
 import FontAwesome from "../uiStyle/FontAwesome";
 import Slider from "../Slider";
-import axios from "axios";
+import QubicwebFeed from "../RssParser";
 import useWeatherAndDate from "../WeatherDate";
 
 const TopBar = ({ className, dark }) => {
-  // Use the custom hook to get weather and date/time
   const { weather, dateTime } = useWeatherAndDate();
+  const { articles, error } = QubicwebFeed();
+
+  useEffect(() => {
+    // Log the articles and error to debug
+    console.log("Articles:", articles);
+    console.log("Error:", error);
+  }, [articles, error]);
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
+
   return (
     <div className={`topbar ${className ? className : ""}`} id="top">
       <div className="container">
@@ -33,30 +45,13 @@ const TopBar = ({ className, dark }) => {
                     disableOnInteraction: false,
                   }}
                 >
-                  <div className="trancarousel_item">
-                    <p>
-                      <Link to="/">
-                        Top 10 Best Movies of 2018 So Far: Great Movies To Watch
-                        Now
-                      </Link>
-                    </p>
-                  </div>
-                  <div className="trancarousel_item">
-                    <p>
-                      <Link to="/">
-                        Top 10 Best Movies of 2018 So Far: Great Movies To Watch
-                        Now
-                      </Link>
-                    </p>
-                  </div>
-                  <div className="trancarousel_item">
-                    <p>
-                      <Link to="/">
-                        Top 10 Best Movies of 2018 So Far: Great Movies To Watch
-                        Now
-                      </Link>
-                    </p>
-                  </div>
+                  {articles.map((article, index) => (
+                    <div key={index} className="trancarousel_item">
+                      <p>
+                        <Link to={article.link}>{article.title}</Link>
+                      </p>
+                    </div>
+                  ))}
                 </Slider>
                 <div className="navBtns">
                   <button className="navBtn prevBtn swiper-button-prev14">
@@ -106,9 +101,9 @@ const TopBar = ({ className, dark }) => {
   );
 };
 
-export default TopBar;
-
 TopBar.propTypes = {
   className: ProtoTypes.string,
   dark: ProtoTypes.bool,
 };
+
+export default TopBar;

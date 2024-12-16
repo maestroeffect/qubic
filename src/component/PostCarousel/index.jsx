@@ -1,46 +1,22 @@
 import React from "react";
-import ProtoTypes from "prop-types";
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
+import FontAwesome from "../uiStyle/FontAwesome";
+import Slider from "../Slider";
 import hside4 from "../../assets/img/post-1.jpg";
 import hside5 from "../../assets/img/post-2.jpg";
 import hside6 from "../../assets/img/post-3.jpg";
 import hside1 from "../../assets/img/post-2.jpg";
 import hside2 from "../../assets/img/post-1.jpg";
 import hside3 from "../../assets/img/post-3.jpg";
-import FontAwesome from "../uiStyle/FontAwesome";
-import Slider from "../Slider";
 
 const postSlider = [
-  {
-    title: "The home decorations document: photograph of an",
-    body: "People have been infected",
-    image: hside4,
-  },
-  {
-    title: "U.S. Response subash says he will label regions by risk of…",
-    body: "People have been infected",
-    image: hside5,
-  },
-  {
-    title: "Stimul package will transform the government fundamentally.",
-    body: "People have been infected",
-    image: hside6,
-  },
-  {
-    title: "U.S. Response subash says he will label regions by risk of…",
-    body: "People have been infected",
-    image: hside1,
-  },
-  {
-    title: "U.S. Response subash says he will label regions by risk of…",
-    body: "People have been infected",
-    image: hside2,
-  },
-  {
-    title: "U.S. Response subash says he will label regions by risk of…",
-    body: "People have been infected",
-    image: hside3,
-  },
+  { title: "The home decorations document: photograph of an", body: "People have been infected", image: hside4 },
+  { title: "U.S. Response subash says he will label regions by risk of…", body: "People have been infected", image: hside5 },
+  { title: "Stimul package will transform the government fundamentally.", body: "People have been infected", image: hside6 },
+  { title: "U.S. Response subash says he will label regions by risk of…", body: "People have been infected", image: hside1 },
+  { title: "U.S. Response subash says he will label regions by risk of…", body: "People have been infected", image: hside2 },
+  { title: "U.S. Response subash says he will label regions by risk of…", body: "People have been infected", image: hside3 },
 ];
 
 const PostCarousel = ({ className }) => {
@@ -50,7 +26,6 @@ const PostCarousel = ({ className }) => {
         <div className="row">
           <div className="col-12">
             <div className="carousel_posts1 owl-carousel nav_style2 mb40 mt30">
-              {/*CAROUSEL START*/}
               <div className="px-4 position-relative">
                 <Slider
                   navigation={{
@@ -61,30 +36,16 @@ const PostCarousel = ({ className }) => {
                   slidesPerView={3}
                   spaceBetween={20}
                   loop={true}
+                  autoplay={{ delay: 3000, disableOnInteraction: false }}
                   breakpoints={{
-                    1024: {
-                      slidesPerView: 3,
-                      spaceBetween: 20,
-                    },
-                    768: {
-                      slidesPerView: 2,
-                      spaceBetween: 20,
-                    },
-                    640: {
-                      slidesPerView: 2,
-                      spaceBetween: 20,
-                    },
-                    320: {
-                      slidesPerView: 1,
-                      spaceBetween: 20,
-                    },
+                    1024: { slidesPerView: 3, spaceBetween: 20 },
+                    768: { slidesPerView: 2, spaceBetween: 20 },
+                    640: { slidesPerView: 2, spaceBetween: 20 },
+                    320: { slidesPerView: 1, spaceBetween: 20 },
                   }}
                 >
                   {postSlider.map((item, i) => (
-                    <div
-                      key={i}
-                      className="single_post widgets_small post_type5"
-                    >
+                    <div key={i} className="single_post widgets_small post_type5">
                       <div className="post_img">
                         <div className="img_wrap">
                           <Link to="/">
@@ -111,7 +72,6 @@ const PostCarousel = ({ className }) => {
                 </div>
               </div>
             </div>
-            {/*CAROUSEL END*/}
           </div>
         </div>
       </div>
@@ -119,8 +79,8 @@ const PostCarousel = ({ className }) => {
   );
 };
 
-export default PostCarousel;
-
 PostCarousel.propTypes = {
-  className: ProtoTypes.string,
+  className: PropTypes.string,
 };
+
+export default PostCarousel;

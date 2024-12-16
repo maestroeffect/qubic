@@ -14,6 +14,7 @@ import MostShareWidget from "../../component/MostShareWidget";
 import UpcomingMatches from "../../component/UpcomingMatches";
 import NewsLetter from "../../component/NewsLetter";
 import CategoriesWidget from "../../component/CategoriesWidget";
+import RssFeed from "../../component/RssParser";
 
 // images
 
@@ -36,6 +37,7 @@ function Home() {
       </div>
       <MixCarousel className="half_bg1" />
       <VideoPost className="pt30 half_bg60" />
+      {/* <RssFeed /> */}
       <div className="entertrainments">
         <div className="container">
           <div className="row">
