@@ -1,10 +1,33 @@
 {
-  "name": "server",
+  "name": "my-vercel-app",
   "version": "1.0.0",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "dev": "vercel dev",
+    "start": "node server.js",
+    "build": "vercel build",
+    "postbuild": "vercel prune"
+  },
+  "dependencies": {
+    "axios": "^0.21.1",
+    "xml2js": "^0.4.23",
+    "cors": "^2.8.5",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "vercel": {
+    "builds": [
+      {
+        "src": "api/**/*.js",
+        "use": "@vercel/node"
+      }
+    ],
+    "routes": [
+      {
+        "src": "/api/(.*)",
+        "dest": "/api/$1"
+      }
+    ]
   },
   "keywords": [],
   "author": "",

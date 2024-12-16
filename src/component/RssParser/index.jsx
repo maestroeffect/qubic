@@ -7,7 +7,7 @@ const QubicwebFeed = () => {
   useEffect(() => {
     const fetchFeed = async () => {
       try {
-        const response = await fetch("http://localhost:5000/rss-feed");
+        const response = await fetch("/api/rss-feed");
 
         if (!response.ok) {
           throw new Error(`HTTP error! Status: ${response.status}`);
